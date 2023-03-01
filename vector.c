@@ -24,7 +24,7 @@ int get_capacity(Vector *v, int *error_code);
 
 void reserve(Vector *v, int capacity, int *error_code);
 void print_vector(Vector *v, int *error_code);
-void delete_vector(Vector *v, int *error_code);
+void delete_vector(Vector **v, int *error_code);
 
 
 Vector *create_vector(){
@@ -44,10 +44,18 @@ char is_empty(Vector *v, int *error_code){
 }
 
 void remove_all_elements(Vector *v, int *error_code){
+    if(v == NULL){
+        *error_code = 2;
+        return;
+    }
     v->size = 0;
 }
 
 void remove_element_at(Vector *v, int index, int *error_code){
+    if(v == NULL){
+        *error_code = 2;
+        return;
+    }
     if(v->size <= index){
         *error_code = 1;
         return;
@@ -61,7 +69,11 @@ void remove_element_at(Vector *v, int index, int *error_code){
 
 
 void insert_element_at(Vector *v, int element, int index, int *error_code){
-    if(v->size < index){
+    if(v == NULL){
+        *error_code = 2;
+        return;
+    }
+    if(v->size < index || index < 0){
         *error_code = 1;
         return;
     }
@@ -85,6 +97,10 @@ void add_element(Vector *v, int element, int *error_code){
 }
 
 void set_element_at(Vector *v, int element, int index, int *error_code){
+    if(v == NULL){
+        *error_code = 2;
+        return;
+    }
     if(v->size <= index){
         *error_code = 1;
         return;
@@ -93,6 +109,10 @@ void set_element_at(Vector *v, int element, int index, int *error_code){
 }
 
 int get_element_at(Vector *v, int index, int *error_code){
+    if(v == NULL){
+        *error_code = 2;
+        return -1;
+    }
     if(v->size <= index){
         *error_code = 1;
         return -1;
@@ -101,6 +121,10 @@ int get_element_at(Vector *v, int index, int *error_code){
 }
 
 int get_size(Vector *v, int *error_code){
+    if(v == NULL){
+        *error_code = 2;
+        return -1;
+    }
     return v->size;
 }
 int get_capacity(Vector *v, int *error_code){
@@ -108,6 +132,10 @@ int get_capacity(Vector *v, int *error_code){
 }
 
 void reserve(Vector *v, int capacity, int *error_code){
+    if(v == NULL){
+        *error_code = 2;
+        return;
+    }
     if(capacity <= v->capacity){
         *error_code = 2;
         return;
@@ -116,6 +144,10 @@ void reserve(Vector *v, int capacity, int *error_code){
     realloc(v->arr, capacity * sizeof(int));
 }
 void print_vector(Vector *v, int *error_code){
+    if(v == NULL){
+        *error_code = 2;
+        return;
+    }
     printf("[");
     for(int i = 0; i < v->size-1; i++){
         printf("%d, ", v->arr[i]);
@@ -125,8 +157,13 @@ void print_vector(Vector *v, int *error_code){
     printf("]\n");
 }
 
-void delete_vector(Vector *v, int *error_code){
-    free(v->arr);
-    free(v);
+void delete_vector(Vector **v, int *error_code){
+    if(*v == NULL){
+        *error_code = 2;
+        return;
+    }
+    free((*v)->arr);
+    free(*v);
+    *v = NULL;
 }
 

@@ -23,6 +23,6 @@ int get_capacity(Vector *v, int *error_code);
 
 void reserve(Vector *v, int capacity, int *error_code);
 void print_vector(Vector *v, int *error_code);
-void delete_vector(Vector *v, int *error_code);
+void delete_vector(Vector **v, int *error_code);
 
 #endif
