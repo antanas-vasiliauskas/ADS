@@ -7,9 +7,10 @@ struct Vector{
     int *arr;
     int size;
     int capacity;
+    int id;
 } typedef Vector;
 
-Vector *create_vector();
+Vector *create_vector(int id);
 char is_empty(Vector *v, int *error_code);
 void remove_all_elements(Vector *v, int *error_code);
 void remove_element_at(Vector *v, int index, int *error_code);

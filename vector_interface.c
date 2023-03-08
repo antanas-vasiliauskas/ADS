@@ -5,25 +5,30 @@
 int main(){
     printf("Si programa leidzia kurti vektoriu.\n");
     char option = ' ';
-    Vector *vec[1000] = {NULL};
+    Vector *vec[3] = {NULL};
     int error_code = 0;
     while(option != '9'){
         error_code = 0;
-        printf("Dabartine vektoriaus busena: ");
-        if(vec != NULL){    
-            print_vector(vec, &error_code);
+        printf("Dabartine vektoriu busena: ");
+        if(vec[0] != NULL || vec[1] != NULL || vec[2] != NULL){
+            for(int i = 0; i < 3 && vec[i] != NULL; i++){
+                printf("vektorius #%d - ", vec[i]->id);
+                print_vector(vec[i], &error_code);
+                printf(", ");
+            }
+            printf("\n");
         }
         else{
-            printf("Vektorius neegzistuoja.\n");
+            printf("Nera sukurtas nei vienas vektorius.\n");
         }
-        printf("Pasirinkite veiksma: \n");
+        printf("Operacijos su vektoriumi: \n");
         printf("    0 - Sukurti vektoriu.\n");
         printf("    1 - Prideti elementa i gala.\n");
         printf("    2 - Prideti elementa i nurodyta pozicija.\n");
         printf("    3 - Istrinti elementa nurodytoje pozicijoje.\n");
         printf("    4 - Pakeisti elementa nurodytoje pozicijoje.\n");
         printf("    5 - Gauti elementa nurodytoje pozicijoje.\n");
-        printf("    6 - Paziureti ar vektorius tuscias.\n");
+        printf("    6 - Paziureti, ar vektorius tuscias.\n");
         printf("    7 - Gauti vektoriaus elementu skaiciu.\n");
         printf("    8 - Sunaikinti vektoriu.\n");
         printf("    9 - Baigti darba.\n");
@@ -31,15 +36,60 @@ int main(){
         fflush(stdin);
         if(option == '0'){
             // 0 - Sukurti vektoriu
-            if(vec != NULL)
-                delete_vector(&vec, &error_code);
-            vec = create_vector();
-            printf("Vektorius sukurtas sekmingai.\n");
+            int id = 0;
+            while(1){
+                char term;
+                printf("Iveskite kuriamo vektoriaus id: \n");
+                int check = scanf("%d%c", &id, &term);
+                if(check != 2 || term != '\n')
+                    printf("Ivestas neskaicius. Bandykite dar karta.\n");
+                else
+                    break;
+                fflush(stdin);
+            }
+            char id_exists = 0;
+            char array_index = -1;
+            for(int i = 0; i < 3; i++){
+                if(array_index == -1 && vec[i] == NULL)
+                    array_index = i;
+                if(vec[i] != NULL && vec[i]->id == id)
+                    id_exists = 1;
+            }
+            if(array_index == -1){
+                printf("Vektorius nesukurtas, nes vektoriu limitas (3) jau pasiektas.\n");
+            }
+            else if(id_exists){
+                printf("Vektorius nesukurtas, nes vektorius su tokiu id jau egzistuoja.\n");
+            }
+            else{
+                vec[array_index] = create_vector(id);
+                printf("Vektorius sukurtas sekmingai.\n");
+            }
+            
         }
         else if(option == '1'){
             // 1 - Prideti elementa i gala.
             int element = 0;
             char term;
+            int id = 0;
+            int index = -1;
+            while(1){
+                printf("Iveskite vektoriaus, su kuriuo norite atlikti operacija, id: \n");
+                int check = scanf("%d%c", &id, &term);
+                if(check != 2 || term != '\n')
+                    printf("Ivestas neskaicius. Bandykite dar karta.\n");
+                else
+                    break;
+                fflush(stdin);
+            }
+            for(int i = 0; i < 3; i++){
+                if(vec[i]->id == id)
+                    index = i;
+            }
+            if(index == -1){
+                printf("Klaida! Vektorius su tokiu id neegzistuoja.\n");
+                continue;
+            }
             while(1){
                 printf("Iveskite elementa (skaiciu): \n");
                 int check = scanf("%d%c", &element, &term);
@@ -49,9 +99,11 @@ int main(){
                     break;
                 fflush(stdin);
             }
-            add_element(vec, element, &error_code);
+
+            
+            add_element(vec[index], element, &error_code);
             if(error_code == 2){
-                printf("Klaida!. Vektorius dar nesukurtas.\n");
+                printf("Klaida! Vektorius dar nesukurtas.\n");
             }
             else{
                 printf("Elementas sekmingai pridetas i vektoriaus gala.\n");
@@ -62,6 +114,25 @@ int main(){
             int element = 0;
             int position = 0;
             char term = 0;
+            int id = 0;
+            int index = -1;
+            while(1){
+                printf("Iveskite vektoriaus, su kuriuo norite atlikti operacija, id: \n");
+                int check = scanf("%d%c", &id, &term);
+                if(check != 2 || term != '\n')
+                    printf("Ivestas neskaicius. Bandykite dar karta.\n");
+                else
+                    break;
+                fflush(stdin);
+            }
+            for(int i = 0; i < 3; i++){
+                if(vec[i]->id == id)
+                    index = i;
+            }
+            if(index == -1){
+                printf("Klaida! Vektorius su tokiu id neegzistuoja.\n");
+                continue;
+            }
             while(1){
                 printf("Iveskite elementa (skaiciu): \n");
                 int check = scanf("%d%c", &element, &term);
@@ -80,12 +151,12 @@ int main(){
                     break;
                 fflush(stdin);
             }
-            insert_element_at(vec, element, position, &error_code);
+            insert_element_at(vec[index], element, position-1, &error_code);
             if(error_code == 2){
                 printf("Klaida! Vektorius dar nesukurtas.\n");
             }
             else if(error_code == 1){
-                printf("Klaida! Perzengti vektoriaus didzio reziai [0, %d]\n", vec->size);
+                printf("Klaida! Perzengti vektoriaus didzio reziai [1, %d]\n", vec[index]->size+1);
             }
             else{
                 printf("Elementas sekmingai pridetas i %d pozicija.\n", position);
@@ -95,6 +166,25 @@ int main(){
             // 3 - Istrinti elementa nurodytoje pozicijoje.
             int position = 0;
             char term = 0;
+            int id = 0;
+            int index = -1;
+            while(1){
+                printf("Iveskite vektoriaus, su kuriuo norite atlikti operacija, id: \n");
+                int check = scanf("%d%c", &id, &term);
+                if(check != 2 || term != '\n')
+                    printf("Ivestas neskaicius. Bandykite dar karta.\n");
+                else
+                    break;
+                fflush(stdin);
+            }
+            for(int i = 0; i < 3; i++){
+                if(vec[i]->id == id)
+                    index = i;
+            }
+            if(index == -1){
+                printf("Klaida! Vektorius su tokiu id neegzistuoja.\n");
+                continue;
+            }
             while(1){
                 printf("Iveskite pozicija elemento, kuri norite istrinti: \n");
                 int check = scanf("%d%c", &position, &term);
@@ -104,12 +194,12 @@ int main(){
                     break;
                 fflush(stdin);
             }
-            remove_element_at(vec, position, &error_code);
+            remove_element_at(vec[index], position-1, &error_code);
             if(error_code == 2){
                 printf("Klaida! Vektorius dar nesukurtas.\n");
             }
             else if(error_code == 1){
-                printf("Klaida! Perzengti vektoriaus didzio reziai [0, %d]\n", vec->size);
+                printf("Klaida! Perzengti vektoriaus didzio reziai [1, %d]\n", vec[index]->size);
             }
             else{
                 printf("Elementas sekmingai istrintas is %d pozicijos.\n", position);
@@ -121,6 +211,25 @@ int main(){
             int element = 0;
             int position = 0;
             char term = 0;
+            int id = 0;
+            int index = -1;
+            while(1){
+                printf("Iveskite vektoriaus, su kuriuo norite atlikti operacija, id: \n");
+                int check = scanf("%d%c", &id, &term);
+                if(check != 2 || term != '\n')
+                    printf("Ivestas neskaicius. Bandykite dar karta.\n");
+                else
+                    break;
+                fflush(stdin);
+            }
+            for(int i = 0; i < 3; i++){
+                if(vec[i]->id == id)
+                    index = i;
+            }
+            if(index == -1){
+                printf("Klaida! Vektorius su tokiu id neegzistuoja.\n");
+                continue;
+            }
             while(1){
                 printf("Iveskite pozicija elemento, kuri norite pakeisti: \n");
                 int check = scanf("%d%c", &position, &term);
@@ -139,12 +248,12 @@ int main(){
                     break;
                 fflush(stdin);
             }
-            set_element_at(vec, element, position, &error_code);
+            set_element_at(vec[index], element, position-1, &error_code);
             if(error_code == 2){
                 printf("Klaida! Vektorius dar nesukurtas.\n");
             }
             else if(error_code == 1){
-                printf("Klaida! Perzengti vektoriaus didzio reziai [0, %d]\n", vec->size-1);
+                printf("Klaida! Perzengti vektoriaus didzio reziai [1, %d]\n", vec[index]->size);
             }
             else{
                 printf("Elementas pozicijoje %d sekmingai pakeistas.\n", position);
@@ -154,6 +263,25 @@ int main(){
             // 5 - Gauti elementa nurodytoje pozicijoje.
             int position = 0;
             char term = 0;
+            int id = 0;
+            int index = -1;
+            while(1){
+                printf("Iveskite vektoriaus, su kuriuo norite atlikti operacija, id: \n");
+                int check = scanf("%d%c", &id, &term);
+                if(check != 2 || term != '\n')
+                    printf("Ivestas neskaicius. Bandykite dar karta.\n");
+                else
+                    break;
+                fflush(stdin);
+            }
+            for(int i = 0; i < 3; i++){
+                if(vec[i]->id == id)
+                    index = i;
+            }
+            if(index == -1){
+                printf("Klaida! Vektorius su tokiu id neegzistuoja.\n");
+                continue;
+            }
             while(1){
                 printf("Iveskite pozicija elemento, kuri norite gauti: \n");
                 int check = scanf("%d%c", &position, &term);
@@ -163,12 +291,12 @@ int main(){
                     break;
                 fflush(stdin);
             }
-            int value = get_element_at(vec, position, &error_code);
+            int value = get_element_at(vec[index], position-1, &error_code);
             if(error_code == 2){
                 printf("Klaida! Vektorius dar nesukurtas.\n");
             }
             else if(error_code == 1){
-                printf("Klaida! Perzengti vektoriaus didzio reziai [0, %d]\n", vec->size);
+                printf("Klaida! Perzengti vektoriaus didzio reziai [1, %d]\n", vec[index]->size);
             }
             else{
                 printf("Elementas %d pozicijoje yra lygus %d.\n", position, value);
@@ -176,7 +304,27 @@ int main(){
         }
         else if(option == '6'){
             // 6 - Paziureti ar vektorius tuscias.
-            char value = is_empty(vec, &error_code);
+            int id = 0;
+            int index = -1;
+            char term;
+            while(1){
+                printf("Iveskite vektoriaus, su kuriuo norite atlikti operacija, id: \n");
+                int check = scanf("%d%c", &id, &term);
+                if(check != 2 || term != '\n')
+                    printf("Ivestas neskaicius. Bandykite dar karta.\n");
+                else
+                    break;
+                fflush(stdin);
+            }
+            for(int i = 0; i < 3; i++){
+                if(vec[i]->id == id)
+                    index = i;
+            }
+            if(index == -1){
+                printf("Klaida! Vektorius su tokiu id neegzistuoja.\n");
+                continue;
+            }
+            char value = is_empty(vec[index], &error_code);
             if(error_code == 2){
                 printf("Klaida! Vektorius dar nesukurtas.\n");
             }else{
@@ -185,7 +333,27 @@ int main(){
         }
         else if(option == '7'){
             // 7 - Gauti vektoriaus elementu skaiciu.
-            int value = get_size(vec, &error_code);
+            int id = 0;
+            int index = -1;
+            char term;
+            while(1){
+                printf("Iveskite vektoriaus, su kuriuo norite atlikti operacija, id: \n");
+                int check = scanf("%d%c", &id, &term);
+                if(check != 2 || term != '\n')
+                    printf("Ivestas neskaicius. Bandykite dar karta.\n");
+                else
+                    break;
+                fflush(stdin);
+            }
+            for(int i = 0; i < 3; i++){
+                if(vec[i]->id == id)
+                    index = i;
+            }
+            if(index == -1){
+                printf("Klaida! Vektorius su tokiu id neegzistuoja.\n");
+                continue;
+            }
+            int value = get_size(vec[index], &error_code);
             if(error_code == 2){
                 printf("Klaida! Vektorius dar nesukurtas.\n");
             }else{
@@ -195,11 +363,35 @@ int main(){
         }
         else if(option == '8'){
             // 8 - Sunaikinti vektoriu.
-            delete_vector(&vec, &error_code);
+            int id = 0;
+            int index = -1;
+            char term;
+            while(1){
+                printf("Iveskite vektoriaus, su kuriuo norite atlikti operacija, id: \n");
+                int check = scanf("%d%c", &id, &term);
+                if(check != 2 || term != '\n')
+                    printf("Ivestas neskaicius. Bandykite dar karta.\n");
+                else
+                    break;
+                fflush(stdin);
+            }
+            for(int i = 0; i < 3; i++){
+                if(vec[i]->id == id)
+                    index = i;
+            }
+            if(index == -1){
+                printf("Klaida! Vektorius su tokiu id neegzistuoja.\n");
+                continue;
+            }
+            delete_vector(&(vec[index]), &error_code);
             if(error_code == 2){
                 printf("Klaida! Vektorius dar nesukurtas.\n");
             }else{
                 printf("Vektorius sekmingai istrintas.\n");
+                for(int i = index; i < 2; i++){
+                    vec[i] = vec[i+1];
+                    vec[i+1] = NULL;
+                }
             }
         }
         else if(option != '9'){

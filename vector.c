@@ -8,9 +8,10 @@ struct Vector{
     int *arr;
     int size;
     int capacity;
+    int id;
 } typedef Vector;
 
-Vector *create_vector();
+Vector *create_vector(int id);
 char is_empty(Vector *v, int *error_code);
 void remove_all_elements(Vector *v, int *error_code);
 void remove_element_at(Vector *v, int index, int *error_code);
@@ -27,11 +28,12 @@ void print_vector(Vector *v, int *error_code);
 void delete_vector(Vector **v, int *error_code);
 
 
-Vector *create_vector(){
+Vector *create_vector(int id){
     Vector *v = malloc(sizeof(Vector));
     v->arr = malloc(0);
     v->size = 0;
     v->capacity = 0;
+    v->id = id;
     return v;
 }
 
@@ -154,7 +156,7 @@ void print_vector(Vector *v, int *error_code){
     }
     if(v->size != 0)
         printf("%d", v->arr[v->size-1]);
-    printf("]\n");
+    printf("]");
 }
 
 void delete_vector(Vector **v, int *error_code){
