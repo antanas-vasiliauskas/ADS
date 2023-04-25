@@ -7,7 +7,7 @@
   
   
 // Function to Create A New Node 
-PriorityQueue* create(long long d, int p, int uid) 
+PriorityQueue* create(int d, int p, int uid) 
 { 
     PriorityQueue* temp = (PriorityQueue*)malloc(sizeof(PriorityQueue)); 
     temp->data = d; 
@@ -19,7 +19,7 @@ PriorityQueue* create(long long d, int p, int uid)
 } 
   
 // Return the value at head 
-long long peek(PriorityQueue** head) 
+int peek(PriorityQueue** head) 
 { 
     return (*head)->data; 
 } 
@@ -34,7 +34,7 @@ void pop(PriorityQueue** head)
 } 
   
 // Function to push according to priority 
-void push(PriorityQueue** head, long long d, int p, int uid)
+void push(PriorityQueue** head, int d, int p, int uid)
 { 
     PriorityQueue* start = (*head); 
   
@@ -55,7 +55,7 @@ void push(PriorityQueue** head, long long d, int p, int uid)
         // Traverse the list and find a 
         // position to insert new node 
         while (start->next != NULL && 
-            start->next->priority < p) { 
+            start->next->priority <= p) { 
             start = start->next; 
         } 
   

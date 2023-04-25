@@ -4,17 +4,17 @@
 #define PRIORITY_QUEUE_H
 
 typedef struct PriorityQueue { 
-    long long data; 
+    int data; 
     // Lower values indicate higher priority 
     int priority;   
     int id;
     struct PriorityQueue* next; 
 } PriorityQueue;
 
-PriorityQueue* create(long long d, int p, int uid);
-long long peek(PriorityQueue** head);
+PriorityQueue* create(int d, int p, int uid);
+int peek(PriorityQueue** head);
 void pop(PriorityQueue** head);
-void push(PriorityQueue** head, long long d, int p, int uid);
+void push(PriorityQueue** head, int d, int p, int uid);
 int isEmptyPQ(PriorityQueue** head);
 
 #endif
