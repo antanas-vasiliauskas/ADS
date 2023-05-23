@@ -19,30 +19,38 @@ bool probability_check(double probability){
 
 
 int main(){
-    srand(time(NULL));
+    //srand(time(NULL));
     PriorityQueue *planes = NULL;
 
     fin = fopen("duomenys.txt", "r");
     fout = fopen("protokolas.txt", "w");
 
-    fprintf(fout, "Antanas Vasiliauskas 3 grupe, 2 pogrupis, 3 uzduotis, 4 variantas.\n\n");
+    fprintf(fout, "3 uzduotis, 4 variantas. Antanas Vasiliauskas 3 grupe, 2 pogrupis.\n\n");
     char *strbfr1 =
-    "SALYGA\n" 
-    "------------------------------------------------------------------------------\n"
-    "Aerouostas (ADT: prioritetinė eilė, ilgas sveikas skaičius). Aerouostas turi 1\n"
-    "pakilimo/nusileidimo taką, besileidžiantys lėktuvai turi prioritetą, t.y. jei\n"
-    "takas laisvas, tai pirmiausia priimamas besileidžiantis lėktuvas, bet jei\n"
-    "kažkuris lėktuvas pradėjo pakilimą, tai visi kiti, tame tarpe ir norintys\n"
-    "nusileist, lėktuvai turi laukti; lėktuvas, norintis nusileisti, negali laukti\n"
-    "labai ilgai, nes jam baigsis degalai. Tikslas: patyrinėti prie kokio apkrovimo\n"
-    "aerouostui pakanka vieno tako. Pradiniai duomenys: nusileidimo laikas (trukmė),\n"
-    "pakilimo laikas, kurį norintis leistis lėktuvas, dar gali išbūti ore, lėktuvo\n"
-    "panorusio kilti/leistis einamuoju momentu tikimybė (galima realizacija: generuojamas\n"
-    "atsitiktinis skaičius ir tikrinama, ar jis tenkina tam tikrą sąlygą), besileidžiantys\n"
-    "ir kylantys lėktuvai pasirodo su vienoda tikimybe. Rezultatai: nukritęs lėktuvas\n"
-    "(modeliavimas iš karto beigiamas), maksimalus ir vidutinis norinčio nusileisti\n"
-    "lėktuvo laukimo laikas, maksimalus ir vidutinis norinčio pakilti lėktuvo laukimo laikas.\n"
-    "------------------------------------------------------------------------------\n\n";
+    "SALYGA\n"
+    "----------------------------------------------------------------------------------\n"
+    "Aerouostas (ADT: prioritetinė eilė, ilgas sveikas skaičius).\n" 
+    "Aerouostas turi 1 pakilimo/nusileidimo taką.\n"
+    "Besileidžiantys lėktuvai turi prioritetą.\n"
+    "T. y., jei takas laisvas, tai pirmiausia priimamas besileidžiantis lėktuvas.\n"
+    "Jei kažkuris lėktuvas pradėjo pakilimą/nusileidimą, tai visi lėktuvai turi laukti.\n"
+    "Lėktuvas, norintis nusileisti, negali laukti labai ilgai, nes jam baigsis degalai.\n"
+    "Patyrinėti prie kokio apkrovimo aerouostui pakanka vieno tako.\n"
+    "PRADINIAI DUOMENYS:\n"
+    "1) Nusileidimo trukmė.\n"
+    "2) Pakilimo trukmė.\n"
+    "3) Trukmė kurį lėktuvas dar gali išbūti ore.\n" 
+    "4) Tikimybė, kad einamuoju momentu atsiras naujas lėktuvas norintis kilti arba leistis P.\n"
+    "5) Tikimybė, kad atsiradęs naujas lėktuvas norės leistis p1.\n"
+    "6) Tikimybė, kad atsiradęs naujas lėktuvas norės kilti p2. (Pastaba: p1 + p2 = 100%%)\n"
+    "REZULTATAI:\n"
+    "1) Modeliavimas baigiamas, kai nukrinta lėktuvas.\n"
+    "2) Maksimali norinčio nusileisti lėktuvo laukimo trukmė.\n"
+    "3) Vidutinė norinčio nusileisti lėktuvo laukimo trukmė.\n"
+    "4) Maksimali norinčio pakilti lėktuvo laukimo trukmė.\n"
+    "5) Vidutinė norinčio pakilti lėktuvo laukimo trukmė.\n"
+    "----------------------------------------------------------------------------------\n\n\n";
+
     fprintf(fout, strbfr1);
 
     
@@ -51,17 +59,21 @@ int main(){
     int down_time;
     int maximum_wait_time;
     double probability;
+    double probability_up;
+    double probability_down;
 
     // Read data
-    fscanf(fin, "%d%d%d%lf", &up_time, &down_time, &maximum_wait_time, &probability);
+    fscanf(fin, "%d%d%d%lf%lf%lf", &up_time, &down_time, &maximum_wait_time, &probability, &probability_up, &probability_down);
 
         
     
     fwrite("I DALIS - DUOMENYS\n\n", 1, strlen("I DALIS - DUOMENYS\n\n"), fout);
-    fprintf(fout, "Nusileidimo laikas: %d\n", down_time);
-    fprintf(fout, "Pakilimo laikas: %d\n", up_time);
-    fprintf(fout, "Laikas, kuri lektuvas dar gali isbuti ore: %d\n", maximum_wait_time);
-    fprintf(fout, "Tikimybe, kad bet kuriuo laiko momentu pasirodys lektuvas: %.2lf%%\n\n", probability*100);
+    fprintf(fout, "%-70s %-d min.\n", "1) Nusileidimo trukmė:", down_time);
+    fprintf(fout, "%-70s %-d min.\n", "2) Pakilimo trukmė:" , up_time);
+    fprintf(fout, "%-70s %-d min.\n", "3) Trukmė kurį lėktuvas dar gali išbūti ore:", maximum_wait_time);
+    fprintf(fout, "%-70s %.0lf %%.\n", "4) Tikimybė, kad atsiras lėktuvas norintis kilti arba leistis P:", probability*100);
+    fprintf(fout, "%-70s %.0lf %%.\n", "5) Tikimybė, kad atsiradęs lėktuvas norės leistis p1:", probability_down*100);
+    fprintf(fout, "%-70s %.0lf %%.\n\n","6) Tikimybė, kad atsiradęs lėktuvas norės kilti p2:", probability_up*100);
 
 
     
@@ -95,71 +107,63 @@ int main(){
 
    fprintf(fout, "II DALIS - VYKDYMAS\n\n");
    
-   for(int t = 0; t < 1000 ; t++){
+   for(int t = 0; t < 100; t++){
 
-    fprintf(fout ,"Momentas T=%d.\n", t);
+    fprintf(fout ,"T=%d min.\n", t);
 
-        // 1.
-        if(probability_check(probability)){
-            int priority = rand() % 2;
-            if(planes == NULL){
-                planes = create(0, priority, ++total_count);
-            }
-            else{
-                push(&planes, 0, priority, ++total_count);
-            }
-            fprintf(fout, "              Naujas lektuvas %d nori %s\n", total_count, priority == 0 ? "leistis." : "kilti.");
+    if(current_id != -1 && current_left > 1){
+        fprintf(fout, "    VEIKSMAS%02d: ", t);
+        fprintf(fout, "Lėktuvas L%d jau %s %d min. Jam liko %s %d min.\n", current_id, current_priority == 0 ? "leidosi" : "kilo", current_priority == 0 ? down_time - current_left + 1 : up_time - current_left + 1, current_priority == 0 ? "leistis" : "kilti", current_left-1);
+    }
+    if(current_left == 1){
+        fprintf(fout, "    VEIKSMAS%02d: ", t);
+        fprintf(fout, "Lėktuvas L%d %s\n", current_id, current_priority == 0 ? "nusileido." : "pakilo.");
+    }
+
+    fprintf(fout, "    BUSENA%02d:   ", t);
+    // 1.
+    if(probability_check(probability)){
+        int priority = probability_check(probability_up) == true ? 1 : 0;
+        if(planes == NULL){
+            planes = create(0, priority, ++total_count);
         }
+        else{
+            push(&planes, 0, priority, ++total_count);
+        }
+        fprintf(fout, "Lėktuvas L%d užsinori %s", total_count, priority == 0 ? "leistis. " : "kilti. ");
+    }
+
+        
+
+
+
 
     
 
-        PriorityQueue *tmp_planes = planes;
-        fprintf(fout, "              Leisis lektuvai: ");
-        char is_empty = 1;
-        while(tmp_planes != NULL){
-            if(tmp_planes->priority == 0){
-                fprintf(fout, "%d%s", tmp_planes->id, tmp_planes->next == NULL ? ".": tmp_planes->next->priority == 1 ? "." : ", ");
-                is_empty = 0;
-            }
-            tmp_planes = tmp_planes->next;
-        }
-        if(is_empty) fprintf(fout, "-");
 
-        is_empty = 1;
-        tmp_planes = planes;
-        
-        fprintf(fout, "\n              Kils lektuvai: ");
-        while(tmp_planes != NULL){
-            if(tmp_planes->priority == 1){
-                fprintf(fout, "%d%s", tmp_planes->id, tmp_planes->next == NULL ? ".": ", ");
-                is_empty = 0;
-            }
-            tmp_planes = tmp_planes->next;
-        }
-        if(is_empty) fprintf(fout, "-");
-        fprintf(fout, "\n");
 
 
         // 2.
 
         current_left--;
         
+        
+
         // Initialization after there were 0 elements 
         if(current_id == -1 && planes != NULL){
             current_id = planes->id;
             current_priority = planes->priority;
             if(planes->priority == 0){
                 current_left = down_time;
-                fprintf(fout, "              Pradeda leidimasi lektuvas %d.\n", current_id);
-            }
-                
+                fprintf(fout, "Lėktuvas L%d gauna leidimą leistis.\n", current_id);
+            }   
             else{
                 current_left = up_time;
-                fprintf(fout, "              Pradeda kilima lektuvas %d.\n", current_id);
+                fprintf(fout, "Lėktuvas L%d gauna leidimą kilti.\n", current_id);
             }
-                
         }
         else if(current_left <= 0 && planes != NULL){
+            
             PriorityQueue *current_plane = planes;
             while(current_plane->id != current_id){
                 current_plane = current_plane->next;
@@ -177,7 +181,6 @@ int main(){
                     max_up_wait_time = current_plane->data;
                 up_average_wait_time += (current_plane->data - up_average_wait_time) / (++up_count);
             }
-            fprintf(fout, "              Lektuvas %d %s\n", current_id, current_priority == 0 ? "nusileido." : "pakilo.");
             if(planes->id == current_id){
                 pop(&planes);
             }
@@ -199,25 +202,47 @@ int main(){
                 current_id = planes->id;
                 current_priority = planes->priority;
                 if(current_priority == 0){
-                    fprintf(fout, "              Pradeda leidimasi lektuvas %d.\n", current_id);
+                fprintf(fout, "Lėktuvas L%d gauna leidimą leistis.\n", current_id);
                     current_left = down_time;
                 }
                 else{
-                    fprintf(fout, "              Pradeda kilima lektuvas %d.\n", current_id);
+                fprintf(fout, "Lėktuvas L%d gauna leidimą kilti.\n", current_id);
                     current_left = up_time;
                 }
             }
             else{
+                fprintf(fout, "\n");
                 current_id = -1;
                 current_priority = -1;
             }
 
-        }else{
-            if(current_id != -1){
-                fprintf(fout, "              Lektuvas %d vis dar %s.\n", current_id, current_priority == 0 ? "leidziasi" : "kyla");
-            }
         }
+        else fprintf(fout, "\n");
+        PriorityQueue *tmp_planes = planes;
+        fprintf(fout, "    Lėktuvų, norinčių leistis, eilė: ");
+        char is_empty = 1;
+        while(tmp_planes != NULL){
+            if(tmp_planes->priority == 0 && tmp_planes->id != current_id){
+                fprintf(fout, "L%d%s", tmp_planes->id, tmp_planes->next == NULL ? ".": tmp_planes->next->priority == 1 ? "." : ", ");
+                is_empty = 0;
+            }
+            tmp_planes = tmp_planes->next;
+        }
+        if(is_empty) fprintf(fout, "-.");
+
+        is_empty = 1;
+        tmp_planes = planes;
         
+        fprintf(fout, "\n    Lėktuvų, norinčių kilti, eilė: ");
+        while(tmp_planes != NULL){
+            if(tmp_planes->priority == 1 && tmp_planes->id != current_id){
+                fprintf(fout, "L%d%s", tmp_planes->id, tmp_planes->next == NULL ? ".": ", ");
+                is_empty = 0;
+            }
+            tmp_planes = tmp_planes->next;
+        }
+        if(is_empty) fprintf(fout, "-.");
+        fprintf(fout, "\n");        
         
 
         // 3.
@@ -236,15 +261,22 @@ int main(){
    }
    CrashCase:
     ;
-    fprintf(fout, "              Lektuvui %d baigesi degalai.\n              Lektuvas %d suduzo.\n\n", crashed_plane_id, crashed_plane_id);
+    if(crashed_plane_id != 0){
+        fprintf(fout, "    Lėktuvui L%d baigėsi degalai.\n    Lėktuvas L%d sudužo.\n\n", crashed_plane_id, crashed_plane_id);
+    }
 
     fprintf(fout, "III DALIS - REZULTATAI\n\n");
 
-    fprintf(fout, "Suduzes lektuvas: %d\n", crashed_plane_id);
-    fprintf(fout, "Maksimalus nusileisti norincio lektuvo laukimo laikas: %d\n", max_down_wait_time);
-    fprintf(fout, "Vidutinis nusileisti norincio lektuvo laukimo laikas: %.2lf\n", down_average_wait_time);
-    fprintf(fout, "Maksimalus pakilti norincio lektuvo laikas: %d\n", max_up_wait_time);
-    fprintf(fout, "Vidutinis pakilti norincio lektuvo laikas: %.2lf\n", up_average_wait_time);
+    if(crashed_plane_id != 0){
+        fprintf(fout, "1) Sudužo L%d lėktuvas.\n", crashed_plane_id);
+    }
+    else{
+        fprintf(fout, "1) Joks lėktuvas nesudužo.\n");
+    }
+    fprintf(fout, "2) Maksimali norinčio nusileisti lėktuvo laukimo trukmė: %-5d min.\n", max_down_wait_time);
+    fprintf(fout, "3) Vidutinė norinčio nusileisti lėktuvo laukimo trukmė:  %-5.2lf min.\n", down_average_wait_time);
+    fprintf(fout, "4) Maksimali norinčio pakilti lėktuvo laukimo trukmė:    %-5d min.\n", max_up_wait_time);
+    fprintf(fout, "5) Vidutinė norinčio pakilti lėktuvo laukimo trukmė:     %-5.2lf min.\n", up_average_wait_time);
     fclose(fin);
     fclose(fout);
 }

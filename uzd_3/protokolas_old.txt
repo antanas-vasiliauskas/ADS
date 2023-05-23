@@ -1,0 +1,135 @@
+Antanas Vasiliauskas 3 grupe, 2 pogrupis, 3 uzduotis, 4 variantas.
+
+SALYGA
+----------------------------------------------------------------------------------
+Aerouostas (ADT: prioritetinė eilė, ilgas sveikas skaičius).
+Aerouostas turi 1 pakilimo/nusileidimo taką.
+Besileidžiantys lėktuvai turi prioritetą.
+T. y., jei takas laisvas, tai pirmiausia priimamas besileidžiantis lėktuvas.
+Jei kažkuris lėktuvas pradėjo pakilimą/nusileidimą, tai visi lėktuvai turi laukti.
+Lėktuvas, norintis nusileisti, negali laukti labai ilgai, nes jam baigsis degalai.
+Patyrinėti prie kokio apkrovimo aerouostui pakanka vieno tako.
+PRADINIAI DUOMENYS:
+1) Nusileidimo trukmė.
+2) Pakilimo trukmė.
+3) Trukmė kurį lėktuvas dar gali išbūti ore.
+4) Tikimybė, kad einamuoju momentu atsiras naujas lėktuvas norintis kilti arba leistis P.
+5) Tikimybė, kad atsiradęs naujas lėktuvas norės leistis p1.
+6) Tikimybė, kad atsiradęs naujas lėktuvas norės kilti p2. (Pastaba: p1 + p2 = 100%)
+REZULTATAI:
+1) Modeliavimas baigiamas, kai nukrinta lėktuvas.
+2) Maksimali norinčio nusileisti lėktuvo laukimo trukmė.
+3) Vidutinė norinčio nusileisti lėktuvo laukimo trukmė.
+4) Maksimali norinčio pakilti lėktuvo laukimo trukmė.
+5) Vidutinė norinčio pakilti lėktuvo laukimo trukmė.
+----------------------------------------------------------------------------------
+
+
+I DALIS - DUOMENYS
+
+1) Nusileidimo trukmė: 3 min.
+2) Pakilimo trukmė: 2 min.
+3) Trukmė kurį lėktuvas dar gali išbūti ore: 9 min.
+4) Tikimybė, kad atsiras lėktuvas norintis kilti arba leistis: P=100 %.
+5) Tikimybė, kad atsiradęs lėktuvas norės leistis: p1=50 %.
+6) Tikimybė, kad atsiradęs lėktuvas norės kilti: p2=50 %.
+
+II DALIS - VYKDYMAS
+
+T=0 min.
+    Naujas lėktuvas L1 nori leistis.
+    Leisis lėktuvai: L1.
+    Kils lėktuvai: -.
+    Pradeda leidimasį lėktuvas L1.
+
+T=1 min.
+    Naujas lėktuvas L2 nori leistis.
+    Leisis lėktuvai: L1, L2.
+    Kils lėktuvai: -.
+    Lėktuvas L1 jau leidosi 2 min.
+
+T=2 min.
+    Naujas lėktuvas L3 nori kilti.
+    Leisis lėktuvai: L1, L2.
+    Kils lėktuvai: L3.
+    Lėktuvas L1 jau leidosi 1 min.
+
+T=3 min.
+    Naujas lėktuvas L4 nori leistis.
+    Leisis lėktuvai: L1, L2, L4.
+    Kils lėktuvai: L3.
+    Lėktuvas L1 nusileido.
+    Pradeda leidimasį lėktuvas L2.
+
+T=4 min.
+    Naujas lėktuvas L5 nori leistis.
+    Leisis lėktuvai: L2, L4, L5.
+    Kils lėktuvai: L3.
+    Lėktuvas L2 jau leidosi 2 min.
+
+T=5 min.
+    Naujas lėktuvas L6 nori leistis.
+    Leisis lėktuvai: L2, L4, L5, L6.
+    Kils lėktuvai: L3.
+    Lėktuvas L2 jau leidosi 1 min.
+
+T=6 min.
+    Naujas lėktuvas L7 nori leistis.
+    Leisis lėktuvai: L2, L4, L5, L6, L7.
+    Kils lėktuvai: L3.
+    Lėktuvas L2 nusileido.
+    Pradeda leidimasį lėktuvas L4.
+
+T=7 min.
+    Naujas lėktuvas L8 nori kilti.
+    Leisis lėktuvai: L4, L5, L6, L7.
+    Kils lėktuvai: L3, L8.
+    Lėktuvas L4 jau leidosi 2 min.
+
+T=8 min.
+    Naujas lėktuvas L9 nori kilti.
+    Leisis lėktuvai: L4, L5, L6, L7.
+    Kils lėktuvai: L3, L8, L9.
+    Lėktuvas L4 jau leidosi 1 min.
+
+T=9 min.
+    Naujas lėktuvas L10 nori kilti.
+    Leisis lėktuvai: L4, L5, L6, L7.
+    Kils lėktuvai: L3, L8, L9, L10.
+    Lėktuvas L4 nusileido.
+    Pradeda leidimasį lėktuvas L5.
+
+T=10 min.
+    Naujas lėktuvas L11 nori kilti.
+    Leisis lėktuvai: L5, L6, L7.
+    Kils lėktuvai: L3, L8, L9, L10, L11.
+    Lėktuvas L5 jau leidosi 2 min.
+
+T=11 min.
+    Naujas lėktuvas L12 nori kilti.
+    Leisis lėktuvai: L5, L6, L7.
+    Kils lėktuvai: L3, L8, L9, L10, L11, L12.
+    Lėktuvas L5 jau leidosi 1 min.
+
+T=12 min.
+    Naujas lėktuvas L13 nori kilti.
+    Leisis lėktuvai: L5, L6, L7.
+    Kils lėktuvai: L3, L8, L9, L10, L11, L12, L13.
+    Lėktuvas L5 nusileido.
+    Pradeda leidimasį lėktuvas L6.
+
+T=13 min.
+    Naujas lėktuvas L14 nori leistis.
+    Leisis lėktuvai: L6, L7, L14.
+    Kils lėktuvai: L3, L8, L9, L10, L11, L12, L13.
+    Lėktuvas L6 jau leidosi 2 min.
+    Lėktuvui L6 baigėsi degalai.
+    Lėktuvas L6 sudužo.
+
+III DALIS - REZULTATAI
+
+1) Sudužo L6 lėktuvas.
+2) Maksimali norinčio nusileisti lėktuvo laukimo trukmė: 8 min.
+3) Vidutinė norinčio nusileisti lėktuvo laukimo trukmė: 5.50 min.
+4) Maksimali norinčio pakilti lėktuvo laukimo trukmė: 0 min.
+5) Vidutinė norinčio pakilti lėktuvo laukimo trukmė: 0.00 min.

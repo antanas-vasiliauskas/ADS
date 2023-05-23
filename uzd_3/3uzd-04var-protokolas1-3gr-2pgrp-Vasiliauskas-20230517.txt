@@ -1,0 +1,130 @@
+3 uzduotis, 4 variantas. Antanas Vasiliauskas 3 grupe, 2 pogrupis.
+
+SALYGA
+----------------------------------------------------------------------------------
+Aerouostas (ADT: prioritetinė eilė, ilgas sveikas skaičius).
+Aerouostas turi 1 pakilimo/nusileidimo taką.
+Besileidžiantys lėktuvai turi prioritetą.
+T. y., jei takas laisvas, tai pirmiausia priimamas besileidžiantis lėktuvas.
+Jei kažkuris lėktuvas pradėjo pakilimą/nusileidimą, tai visi lėktuvai turi laukti.
+Lėktuvas, norintis nusileisti, negali laukti labai ilgai, nes jam baigsis degalai.
+Patyrinėti prie kokio apkrovimo aerouostui pakanka vieno tako.
+PRADINIAI DUOMENYS:
+1) Nusileidimo trukmė.
+2) Pakilimo trukmė.
+3) Trukmė kurį lėktuvas dar gali išbūti ore.
+4) Tikimybė, kad einamuoju momentu atsiras naujas lėktuvas norintis kilti arba leistis P.
+5) Tikimybė, kad atsiradęs naujas lėktuvas norės leistis p1.
+6) Tikimybė, kad atsiradęs naujas lėktuvas norės kilti p2. (Pastaba: p1 + p2 = 100%)
+REZULTATAI:
+1) Modeliavimas baigiamas, kai nukrinta lėktuvas.
+2) Maksimali norinčio nusileisti lėktuvo laukimo trukmė.
+3) Vidutinė norinčio nusileisti lėktuvo laukimo trukmė.
+4) Maksimali norinčio pakilti lėktuvo laukimo trukmė.
+5) Vidutinė norinčio pakilti lėktuvo laukimo trukmė.
+----------------------------------------------------------------------------------
+
+
+I DALIS - DUOMENYS
+
+1) Nusileidimo trukmė:                                                3 min.
+2) Pakilimo trukmė:                                                   2 min.
+3) Trukmė kurį lėktuvas dar gali išbūti ore:                          9 min.
+4) Tikimybė, kad atsiras lėktuvas norintis kilti arba leistis P:    100 %.
+5) Tikimybė, kad atsiradęs lėktuvas norės leistis p1:                50 %.
+6) Tikimybė, kad atsiradęs lėktuvas norės kilti p2:                  50 %.
+
+II DALIS - VYKDYMAS
+
+T=0 min.
+    BUSENA00:   Lėktuvas L1 užsinori leistis. Lėktuvas L1 gauna leidimą leistis.
+    Lėktuvų, norinčių leistis, eilė: -.
+    Lėktuvų, norinčių kilti, eilė: -.
+
+T=1 min.
+    VEIKSMAS01: Lėktuvas L1 jau leidosi 1 min. Jam liko leistis 2 min.
+    BUSENA01:   Lėktuvas L2 užsinori leistis. 
+    Lėktuvų, norinčių leistis, eilė: L2.
+    Lėktuvų, norinčių kilti, eilė: -.
+
+T=2 min.
+    VEIKSMAS02: Lėktuvas L1 jau leidosi 2 min. Jam liko leistis 1 min.
+    BUSENA02:   Lėktuvas L3 užsinori kilti. 
+    Lėktuvų, norinčių leistis, eilė: L2.
+    Lėktuvų, norinčių kilti, eilė: L3.
+
+T=3 min.
+    VEIKSMAS03: Lėktuvas L1 nusileido.
+    BUSENA03:   Lėktuvas L4 užsinori leistis. Lėktuvas L2 gauna leidimą leistis.
+    Lėktuvų, norinčių leistis, eilė: L4.
+    Lėktuvų, norinčių kilti, eilė: L3.
+
+T=4 min.
+    VEIKSMAS04: Lėktuvas L2 jau leidosi 1 min. Jam liko leistis 2 min.
+    BUSENA04:   Lėktuvas L5 užsinori leistis. 
+    Lėktuvų, norinčių leistis, eilė: L4, L5.
+    Lėktuvų, norinčių kilti, eilė: L3.
+
+T=5 min.
+    VEIKSMAS05: Lėktuvas L2 jau leidosi 2 min. Jam liko leistis 1 min.
+    BUSENA05:   Lėktuvas L6 užsinori leistis. 
+    Lėktuvų, norinčių leistis, eilė: L4, L5, L6.
+    Lėktuvų, norinčių kilti, eilė: L3.
+
+T=6 min.
+    VEIKSMAS06: Lėktuvas L2 nusileido.
+    BUSENA06:   Lėktuvas L7 užsinori leistis. Lėktuvas L4 gauna leidimą leistis.
+    Lėktuvų, norinčių leistis, eilė: L5, L6, L7.
+    Lėktuvų, norinčių kilti, eilė: L3.
+
+T=7 min.
+    VEIKSMAS07: Lėktuvas L4 jau leidosi 1 min. Jam liko leistis 2 min.
+    BUSENA07:   Lėktuvas L8 užsinori kilti. 
+    Lėktuvų, norinčių leistis, eilė: L5, L6, L7.
+    Lėktuvų, norinčių kilti, eilė: L3, L8.
+
+T=8 min.
+    VEIKSMAS08: Lėktuvas L4 jau leidosi 2 min. Jam liko leistis 1 min.
+    BUSENA08:   Lėktuvas L9 užsinori kilti. 
+    Lėktuvų, norinčių leistis, eilė: L5, L6, L7.
+    Lėktuvų, norinčių kilti, eilė: L3, L8, L9.
+
+T=9 min.
+    VEIKSMAS09: Lėktuvas L4 nusileido.
+    BUSENA09:   Lėktuvas L10 užsinori kilti. Lėktuvas L5 gauna leidimą leistis.
+    Lėktuvų, norinčių leistis, eilė: L6, L7.
+    Lėktuvų, norinčių kilti, eilė: L3, L8, L9, L10.
+
+T=10 min.
+    VEIKSMAS10: Lėktuvas L5 jau leidosi 1 min. Jam liko leistis 2 min.
+    BUSENA10:   Lėktuvas L11 užsinori kilti. 
+    Lėktuvų, norinčių leistis, eilė: L6, L7.
+    Lėktuvų, norinčių kilti, eilė: L3, L8, L9, L10, L11.
+
+T=11 min.
+    VEIKSMAS11: Lėktuvas L5 jau leidosi 2 min. Jam liko leistis 1 min.
+    BUSENA11:   Lėktuvas L12 užsinori kilti. 
+    Lėktuvų, norinčių leistis, eilė: L6, L7.
+    Lėktuvų, norinčių kilti, eilė: L3, L8, L9, L10, L11, L12.
+
+T=12 min.
+    VEIKSMAS12: Lėktuvas L5 nusileido.
+    BUSENA12:   Lėktuvas L13 užsinori kilti. Lėktuvas L6 gauna leidimą leistis.
+    Lėktuvų, norinčių leistis, eilė: L7.
+    Lėktuvų, norinčių kilti, eilė: L3, L8, L9, L10, L11, L12, L13.
+
+T=13 min.
+    VEIKSMAS13: Lėktuvas L6 jau leidosi 1 min. Jam liko leistis 2 min.
+    BUSENA13:   Lėktuvas L14 užsinori leistis. 
+    Lėktuvų, norinčių leistis, eilė: L7, L14.
+    Lėktuvų, norinčių kilti, eilė: L3, L8, L9, L10, L11, L12, L13.
+    Lėktuvui L6 baigėsi degalai.
+    Lėktuvas L6 sudužo.
+
+III DALIS - REZULTATAI
+
+1) Sudužo L6 lėktuvas.
+2) Maksimali norinčio nusileisti lėktuvo laukimo trukmė: 8     min.
+3) Vidutinė norinčio nusileisti lėktuvo laukimo trukmė:  5.50  min.
+4) Maksimali norinčio pakilti lėktuvo laukimo trukmė:    0     min.
+5) Vidutinė norinčio pakilti lėktuvo laukimo trukmė:     0.00  min.
